@@ -6,18 +6,23 @@
 class EyeFrame
 {
   public:
-  char left[16];
-  char right[16];
+  char * left;
+  char * right;
   int times;
   byte bright;
   bool used;
-  EyeFrame(char setLeft[16], char setRight[16], byte setBright, int setTimes)
+  EyeFrame(char * setLeft, char * setRight, byte setBright, int setTimes)
   {
-    left[16] = setLeft[16];
-    right[16] = setRight[16];
+    left = setLeft;
+    right = setRight;
     times = setTimes;
     bright = setBright;
     used = false;
+  }
+  ~EyeFrame()
+  {
+    delete [] left;
+    delete [] right;
   }
 };
 QueueList<EyeFrame *> queueEye;
@@ -77,44 +82,45 @@ void setup()
   
   servotime(108);
 
-  if(true){
-  char e1[16] = {'P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','P'};
-  char e2[16] = {'P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','P'};
-  EyeFrame * eyeTest = new EyeFrame(e1, e2, 15, 1000);
-  queueEye.push(eyeTest);
-  }
-  if(true){
-  char e1[16] = {'A','P','A','P','P','P','P','P','P','P','P','P','P','P','P','P'};
-  char e2[16] = {'A','P','A','P','P','P','P','P','P','P','P','P','P','P','P','P'};
-  EyeFrame * eyeTest = new EyeFrame(e1, e2, 13, 1000);
-  queueEye.push(eyeTest);
-  }
-  if(true){
-  char e1[16] = {'A','A','A','A','P','P','P','P','P','P','P','P','P','P','P','P'};
-  char e2[16] = {'A','A','A','A','P','P','P','P','P','P','P','P','P','P','P','P'};
-  EyeFrame * eyeTest = new EyeFrame(e1, e2, 13, 1000);
-  queueEye.push(eyeTest);
-  }
-  if(true){
-  char e1[16] = {'A','A','A','A','P','D','P','D','P','D','P','D','P','P','P','P'};
-  char e2[16] = {'A','A','A','A','P','D','P','D','P','D','P','D','P','P','P','P'};
-  EyeFrame * eyeTest = new EyeFrame(e1, e2, 13, 1000);
-  queueEye.push(eyeTest);
-  }
-  if(true){
-  char e1[16] = {'A','A','A','A','P','D','P','D','P','D','P','D','P','P','P','P'};
-  char e2[16] = {'A','A','A','A','P','D','P','D','P','D','P','D','P','P','P','P'};
-  EyeFrame *  eyeTest = new EyeFrame("AAAAPDPDPDPDPAPA", "AAAAPDPDPDPDPAPA", 7, 1000);
-  queueEye.push(eyeTest);
-  }
-  EyeFrame * eyeTest = new EyeFrame("AAAAPDPDPDPDAAAA", "AAAAPDPDPDPDAAAA", 5, 1000);
-  queueEye.push(eyeTest);
-  eyeTest = new EyeFrame("AAAAMDMDMDMDAAAA", "AAAAMDMDMDMDAAAA", 3, 1000);
-  queueEye.push(eyeTest);
-  eyeTest = new EyeFrame("AAAAAAAAMDMDAAAA", "AAAAAAAAMDMDAAAA", 1, 1000);
-  queueEye.push(eyeTest);
-  eyeTest = new EyeFrame("AAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAA", 0, 1000);
-  queueEye.push(eyeTest);
+  delay(5000);
+  Serial.println("system setup");
+  Serial.println("begin to runloop");
+
+  char * e1 = new char[17]{'P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','\0'};
+  char * e2 = new char[17]{'P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','P','\0'};
+  EyeFrame * eye = new EyeFrame(e1, e2, 15, 1000);
+  queueEye.push(eye);
+  e1 = new char[17]{'A','P','A','P','P','P','P','P','P','P','P','P','P','P','P','P','\0'};
+  e2 = new char[17]{'A','P','A','P','P','P','P','P','P','P','P','P','P','P','P','P','\0'};
+  eye = new EyeFrame(e1, e2, 15, 1000);
+  queueEye.push(eye);
+  e1 = new char[17]{'A','A','A','A','P','P','P','P','P','P','P','P','P','P','P','P','\0'};
+  e2 = new char[17]{'A','A','A','A','P','P','P','P','P','P','P','P','P','P','P','P','\0'};
+  eye = new EyeFrame(e1, e2, 15, 1000);
+  queueEye.push(eye);
+  e1 = new char[17]{'A','A','A','A','P','D','P','D','P','P','P','P','P','P','P','P','\0'};
+  e2 = new char[17]{'A','A','A','A','P','D','P','D','P','P','P','P','P','P','P','P','\0'};
+  eye = new EyeFrame(e1, e2, 15, 1000);
+  queueEye.push(eye);
+  e1 = new char[17]{'A','A','A','A','P','D','P','D','P','D','P','D','P','P','P','P','\0'};
+  e2 = new char[17]{'A','A','A','A','P','D','P','D','P','D','P','D','P','P','P','P','\0'};
+  eye = new EyeFrame(e1, e2, 15, 1000);
+  queueEye.push(eye);
+  e1 = new char[17]{'A','A','A','A','P','D','P','D','P','D','P','D','A','A','A','A','\0'};
+  e2 = new char[17]{'A','A','A','A','P','D','P','D','P','D','P','D','A','A','A','A','\0'};
+  eye = new EyeFrame(e1, e2, 15, 1000);
+  queueEye.push(eye);
+  e1 = new char[17]{'A','A','A','A','M','D','M','D','P','D','P','D','A','A','A','A','\0'};
+  e2 = new char[17]{'A','A','A','A','M','D','M','D','P','D','P','D','A','A','A','A','\0'};
+  eye = new EyeFrame(e1, e2, 15, 1000);
+  queueEye.push(eye);
+  e1 = new char[17]{'A','A','A','A','M','D','M','D','M','D','M','D','A','A','A','A','\0'};
+  e2 = new char[17]{'A','A','A','A','M','D','M','D','M','D','M','D','A','A','A','A','\0'};
+  eye = new EyeFrame(e1, e2, 15, 1000);
+  queueEye.push(eye);
+  e1 = new char[17]{'A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','\0'};
+  e2 = new char[17]{'A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','\0'};
+  eye = new EyeFrame(e1, e2, 15, 1000);
 }
 
 void loop()
@@ -122,10 +128,10 @@ void loop()
   time_now = millis();
   if (Serial.available())
   {
-    /*
-    String temp = Serial.readStringUntil('\n');
+    
+    String temp = Serial.readString();
     Serial.println(temp);
-    return;*/
+    /*
     while (Serial.peek() > 0)
     {
       String jsonString = Serial.readStringUntil('\n');
@@ -158,7 +164,7 @@ void loop()
           check_Head(json);
         }
       }
-    }
+    }*/
   }
 
   if (isTime_left)
@@ -181,14 +187,15 @@ void loop()
       done_Legs("right_leg", leg_right);
     }
   }
-  
-  if (!queueEye.isEmpty())
+
+  bool empty = queueEye.isEmpty();
+  if (!empty)
   {
     EyeFrame * eye = queueEye.peek();
     if (time_now >= eye->times)
     {
-      String leftEye = eye->left;
-      String rightEye = eye->right;
+      char * leftEye = eye->left;
+      char * rightEye = eye->right;
       parseEyeData(leftEye, eye_left);
       parseEyeData(rightEye, eye_right);
       int bright = eye->bright;
@@ -211,12 +218,6 @@ void loop()
         Serial.println(String(eye->times));
         Serial.println(String(eye->bright));
       }
-    }
-    else
-    {
-      //Serial.println(String(eye->times - time_now));
-      //Serial.println("next frame times = " + String(eye->times));
-      //Serial.println("now times = " + String(time_now));
     }
   }
   
@@ -291,12 +292,12 @@ void check_Eye(JsonObject & json)
   Serial.println("eye event");
   if (json.containsKey("left") && json.containsKey("right"))
   {
-    String leftEyeTemp = json["left"];
-    String  rightEyeTemp = json["right"];
-    char leftEye[16];// = leftEyeTemp.toCharArray();
-    char rightEye[16];// = rightEyeTemp.toCharArray();
-    leftEyeTemp.toCharArray(leftEye, 17);
-    rightEyeTemp.toCharArray(rightEye, 17);
+    const char * leftEyeTemp = json["left"];
+    const char * rightEyeTemp = json["right"];
+    char * leftEye = new char[17];
+    char * rightEye = new char[17];
+    strncpy(leftEye, leftEyeTemp, 17);
+    strncpy(rightEye, rightEyeTemp, 17);
     //strncpy(leftEye, leftEyeTemp, 17);
     //strncpy(rightEye, rightEyeTemp, 17);
     byte bright = json["bright"];
@@ -305,11 +306,12 @@ void check_Eye(JsonObject & json)
     {
       times += time_now;
     }
+    
     EyeFrame * eye = new EyeFrame(leftEye, rightEye, bright, times);
     queueEye.push(eye);
   }
 }
-void parseEyeData(String eyeData, bool eyeArr[8][8])
+void parseEyeData(char * eyeData, bool eyeArr[8][8])
 {
   int x = 7, y = 7;
   for (int i = 0; i < 16; i++)
@@ -406,7 +408,7 @@ void ack_Legs(String key, unsigned long continued)
 }
 void doing_Legs(String key, float value)
 {
-  StaticJsonBuffer<200> jsonBuffer;
+  StaticJsonBuffer<500> jsonBuffer;
   JsonObject & feedback = jsonBuffer.createObject();
   feedback["key"] = key;
   feedback["status"] = "doing";
